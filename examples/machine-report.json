@@ -1,0 +1,7 @@
+{
+  "fixture": true,
+  "artifact_validation": "not_run",
+  "signal_examples": [
+    "bounding_box_jump_is_only_advisory"
+  ]
+}

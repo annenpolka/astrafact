@@ -1,0 +1,65 @@
+schema_version: "0.1"
+# This is a policy draft, not an executable workflow engine.
+policy_kind: design_contract
+priority_order:
+  - reject_stale_bindings
+  - stop_on_artifact_integrity_failure
+  - stop_on_budget_or_attempt_limit
+  - request_missing_evidence
+  - repair_known_defects
+  - require_runtime_review
+  - release_if_all_gates_pass
+limits:
+  max_generation_attempts_per_clip: 4
+  max_patch_attempts_per_candidate: 3
+  max_recurrences_of_same_issue: 2
+  max_usd_per_clip: null
+  unset_money_limit_blocks_paid_calls: true
+  timeout_after_submission: reconcile_job_before_retry
+  exhausted_action: checkpoint_and_stop
+routes:
+  evidence_missing:
+    action: rebuild_review_pack
+    regenerate_pixels: false
+  invalid_hash_or_missing_artifact:
+    action: stop_and_rebuild_binding
+  invalid_dimensions_or_alpha_or_palette:
+    action: new_candidate_with_explicit_normalization
+    never_silently_resize_or_quantize: true
+    rereview: full_clip_and_runtime
+  local_visual_defect:
+    prefer: pixel_patch
+    requires:
+      - authorized_binary_mask
+      - matching_parent_hash
+      - allowlisted_executor
+    alternative: provider_edit_with_outside_mask_compositing
+    unsupported_fallback: reject_plan_not_the_candidate
+    rereview: full_clip_and_runtime
+  whole_clip_motion_failure:
+    action: regenerate
+    output: new_candidate
+    retain_previous_candidate: true
+  metadata_mismatch:
+    action: metadata_patch
+    requires: explicit_authoritative_value
+    rereview: full_clip_and_runtime
+  requested_timing_or_style_change:
+    action: spec_change
+    requires: owner_approval_of_new_spec_revision
+  unexpected_bbox_or_centroid_jump:
+    action: add_advisory_signal_to_review_pack
+    auto_reject: false
+  limit_exceeded:
+    action: checkpoint_and_stop
+    lower_quality_threshold: false
+release_gates:
+  - exact_candidate_and_spec_hashes_match
+  - artifact_integrity_verified
+  - all_deterministic_validators_pass
+  - all_blocking_visual_checks_pass
+  - no_blocking_not_observable
+  - actual_runtime_evidence_exists
+  - runtime_visual_review_passes
+  - authorized_changes_only
+  - actual_astra_reviewer_receipt_exists

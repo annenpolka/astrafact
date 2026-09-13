@@ -1,0 +1,45 @@
+test_anchor_bounds (test_contracts.ContractsTest.test_anchor_bounds) ... ok
+test_artifact_verification_rejects_fixture (test_contracts.ContractsTest.test_artifact_verification_rejects_fixture) ... ok
+test_asset_id_mismatch (test_contracts.ContractsTest.test_asset_id_mismatch) ... ok
+test_board_coordinate_mapping (test_contracts.ContractsTest.test_board_coordinate_mapping) ... ok
+test_board_outside_not_clamped (test_contracts.ContractsTest.test_board_outside_not_clamped) ... ok
+test_duplicate_image_ids (test_contracts.ContractsTest.test_duplicate_image_ids) ... ok
+test_duplicate_json_keys (test_contracts.ContractsTest.test_duplicate_json_keys) ... ok
+test_duplicate_yaml_keys (test_contracts.ContractsTest.test_duplicate_yaml_keys) ... ok
+test_event_at_exclusive_frame_end_rejected (test_contracts.ContractsTest.test_event_at_exclusive_frame_end_rejected) ... ok
+test_evidence_cites_invisible_frame (test_contracts.ContractsTest.test_evidence_cites_invisible_frame) ... ok
+test_example_contracts (test_contracts.ContractsTest.test_example_contracts) ... ok
+test_fail_needs_issue (test_contracts.ContractsTest.test_fail_needs_issue) ... ok
+test_failure_cannot_pass (test_contracts.ContractsTest.test_failure_cannot_pass) ... ok
+test_invalid_board_scale (test_contracts.ContractsTest.test_invalid_board_scale) ... ok
+test_missing_evidence_request (test_contracts.ContractsTest.test_missing_evidence_request) ... ok
+test_missing_frame_in_board (test_contracts.ContractsTest.test_missing_frame_in_board) ... ok
+test_model_cannot_add_check (test_contracts.ContractsTest.test_model_cannot_add_check) ... ok
+test_model_cannot_remove_check (test_contracts.ContractsTest.test_model_cannot_remove_check) ... ok
+test_negative_duration_rejected (test_contracts.ContractsTest.test_negative_duration_rejected) ... ok
+test_no_evidence_for_pass (test_contracts.ContractsTest.test_no_evidence_for_pass) ... ok
+test_no_reference_image (test_contracts.ContractsTest.test_no_reference_image) ... ok
+test_one_based_frames_rejected (test_contracts.ContractsTest.test_one_based_frames_rejected) ... ok
+test_pack_cannot_downgrade_requirement (test_contracts.ContractsTest.test_pack_cannot_downgrade_requirement) ... ok
+test_path_traversal (test_contracts.ContractsTest.test_path_traversal) ... ok
+test_repair_needs_mask (test_contracts.ContractsTest.test_repair_needs_mask) ... ok
+test_repair_parent_hash (test_contracts.ContractsTest.test_repair_parent_hash) ... ok
+test_repair_unknown_issue (test_contracts.ContractsTest.test_repair_unknown_issue) ... ok
+test_runtime_missing_manifest (test_contracts.ContractsTest.test_runtime_missing_manifest) ... ok
+test_stale_pack_hash (test_contracts.ContractsTest.test_stale_pack_hash) ... ok
+test_unknown_image_in_evidence (test_contracts.ContractsTest.test_unknown_image_in_evidence) ... ok
+test_unknown_top_level_field (test_contracts.ContractsTest.test_unknown_top_level_field) ... ok
+test_unlisted_direction_rejected (test_contracts.ContractsTest.test_unlisted_direction_rejected) ... ok
+test_unobservable_cannot_pass (test_contracts.ContractsTest.test_unobservable_cannot_pass) ... ok
+test_authorized_change (test_contracts.PixelGuardTest.test_authorized_change) ... ok
+test_no_changes (test_contracts.PixelGuardTest.test_no_changes) ... ok
+test_rgb_mask_rejected (test_contracts.PixelGuardTest.test_rgb_mask_rejected) ... ok
+test_size_mismatch_rejected (test_contracts.PixelGuardTest.test_size_mismatch_rejected) ... ok
+test_soft_mask_rejected (test_contracts.PixelGuardTest.test_soft_mask_rejected) ... ok
+test_transparent_rgb_normalized (test_contracts.PixelGuardTest.test_transparent_rgb_normalized) ... ok
+test_unauthorized_change (test_contracts.PixelGuardTest.test_unauthorized_change) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 1.295s
+
+OK

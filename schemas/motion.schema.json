@@ -1,0 +1,259 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:astrafact:v0.1:motion",
+  "title": "motion v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "motion_id": {
+      "$ref": "#/$defs/id"
+    },
+    "asset_id": {
+      "$ref": "#/$defs/id"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "direction": {
+      "$ref": "#/$defs/direction"
+    },
+    "intent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "loop": {
+      "type": "boolean"
+    },
+    "root_motion": {
+      "enum": [
+        "in_place",
+        "external_track"
+      ]
+    },
+    "frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "duration_ms": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 60000
+          },
+          "beat": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "index",
+          "duration_ms",
+          "beat"
+        ]
+      },
+      "minItems": 1,
+      "maxItems": 256
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "$ref": "#/$defs/id"
+          },
+          "frame": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "offset_ms": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "name",
+          "frame",
+          "offset_ms"
+        ]
+      },
+      "minItems": 0
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/requirement"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "motion_id",
+    "asset_id",
+    "revision",
+    "direction",
+    "intent",
+    "loop",
+    "root_motion",
+    "frames",
+    "events",
+    "requirements"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_.-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ]
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "rect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "x1": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "y1": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "x0",
+        "y0",
+        "x1",
+        "y1"
+      ]
+    },
+    "direction": {
+      "enum": [
+        "N",
+        "NE",
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ]
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "blocking",
+        "text"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image_id": {
+          "$ref": "#/$defs/id"
+        },
+        "frame_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "region": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rect"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "image_id",
+        "frame_indices",
+        "region",
+        "observation"
+      ]
+    }
+  }
+}

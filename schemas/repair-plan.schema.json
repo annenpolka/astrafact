@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:astrafact:v0.1:repair-plan",
+  "title": "repair-plan v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "plan_id": {
+      "$ref": "#/$defs/id"
+    },
+    "parent_candidate_id": {
+      "$ref": "#/$defs/id"
+    },
+    "parent_manifest_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "source_review_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "issue_ids": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "pixel_patch",
+            "provider_edit",
+            "regenerate",
+            "metadata_patch",
+            "spec_change"
+          ]
+        },
+        "executor_id": {
+          "$ref": "#/$defs/id"
+        },
+        "parameters": {
+          "$ref": "#/$defs/file"
+        }
+      },
+      "required": [
+        "kind",
+        "executor_id",
+        "parameters"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pixel_mode": {
+          "enum": [
+            "none",
+            "masked",
+            "full_frames",
+            "new_candidate"
+          ]
+        },
+        "frame_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "writable_masks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "frame_index": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "mask": {
+                "$ref": "#/$defs/file"
+              }
+            },
+            "required": [
+              "frame_index",
+              "mask"
+            ]
+          },
+          "minItems": 0
+        },
+        "allowed_metadata_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^/"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "pixel_mode",
+        "frame_indices",
+        "writable_masks",
+        "allowed_metadata_paths"
+      ]
+    },
+    "preserve": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "outside_masks": {
+          "const": "exact_canonical_rgba"
+        },
+        "unlisted_frames": {
+          "const": "exact_canonical_rgba"
+        },
+        "unlisted_metadata": {
+          "const": "exact_value"
+        }
+      },
+      "required": [
+        "outside_masks",
+        "unlisted_frames",
+        "unlisted_metadata"
+      ]
+    },
+    "re_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "full_clip": {
+          "const": true
+        },
+        "runtime_required": {
+          "const": true
+        }
+      },
+      "required": [
+        "full_clip",
+        "runtime_required"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "plan_id",
+    "parent_candidate_id",
+    "parent_manifest_sha256",
+    "source_review_sha256",
+    "issue_ids",
+    "operation",
+    "scope",
+    "preserve",
+    "re_review"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_.-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ]
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "rect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "x1": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "y1": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "x0",
+        "y0",
+        "x1",
+        "y1"
+      ]
+    },
+    "direction": {
+      "enum": [
+        "N",
+        "NE",
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ]
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "blocking",
+        "text"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image_id": {
+          "$ref": "#/$defs/id"
+        },
+        "frame_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "region": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rect"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "image_id",
+        "frame_indices",
+        "region",
+        "observation"
+      ]
+    }
+  }
+}

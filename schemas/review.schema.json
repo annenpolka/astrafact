@@ -1,0 +1,308 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:astrafact:v0.1:review",
+  "title": "review v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "pack_id": {
+      "$ref": "#/$defs/id"
+    },
+    "pack_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "candidate_id": {
+      "$ref": "#/$defs/id"
+    },
+    "stage": {
+      "enum": [
+        "candidate",
+        "repair",
+        "runtime"
+      ]
+    },
+    "verdict": {
+      "enum": [
+        "pass",
+        "repair",
+        "reject",
+        "needs_evidence"
+      ]
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "criterion_id": {
+            "$ref": "#/$defs/id"
+          },
+          "result": {
+            "enum": [
+              "pass",
+              "fail",
+              "not_observable"
+            ]
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/evidence"
+            },
+            "minItems": 0
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "criterion_id",
+          "result",
+          "evidence",
+          "reason"
+        ]
+      },
+      "minItems": 1
+    },
+    "issues": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "criterion_id": {
+            "$ref": "#/$defs/id"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "$ref": "#/$defs/evidence"
+            },
+            "minItems": 1
+          },
+          "change": {
+            "type": "string",
+            "minLength": 1
+          },
+          "preserve": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "suggested_route": {
+            "enum": [
+              "pixel_patch",
+              "provider_edit",
+              "regenerate",
+              "metadata_patch",
+              "spec_change"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "criterion_id",
+          "evidence",
+          "change",
+          "preserve",
+          "suggested_route"
+        ]
+      },
+      "minItems": 0
+    },
+    "evidence_requests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "criterion_id": {
+            "$ref": "#/$defs/id"
+          },
+          "needed": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "criterion_id",
+          "needed"
+        ]
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "pack_id",
+    "pack_sha256",
+    "candidate_id",
+    "stage",
+    "verdict",
+    "summary",
+    "checks",
+    "issues",
+    "evidence_requests"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_.-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ]
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "rect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "x1": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "y1": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "x0",
+        "y0",
+        "x1",
+        "y1"
+      ]
+    },
+    "direction": {
+      "enum": [
+        "N",
+        "NE",
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ]
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "blocking",
+        "text"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image_id": {
+          "$ref": "#/$defs/id"
+        },
+        "frame_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "region": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rect"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "image_id",
+        "frame_indices",
+        "region",
+        "observation"
+      ]
+    }
+  }
+}

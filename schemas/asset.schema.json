@@ -1,0 +1,366 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:astrafact:v0.1:asset",
+  "title": "asset v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "asset_id": {
+      "$ref": "#/$defs/id"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "kind": {
+      "const": "character"
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1024
+        },
+        "anchor": {
+          "$ref": "#/$defs/point"
+        }
+      },
+      "required": [
+        "width",
+        "height",
+        "anchor"
+      ]
+    },
+    "coordinates": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "origin": {
+          "const": "top_left"
+        },
+        "axes": {
+          "const": "x_right_y_down"
+        },
+        "frame_index": {
+          "const": "zero_based"
+        },
+        "rectangles": {
+          "const": "half_open"
+        },
+        "handedness": {
+          "const": "anatomical"
+        }
+      },
+      "required": [
+        "origin",
+        "axes",
+        "frame_index",
+        "rectangles",
+        "handedness"
+      ]
+    },
+    "palette": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "working_mode": {
+          "const": "rgba"
+        },
+        "opaque_colors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^#[0-9A-F]{6}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "maxItems": 255
+        },
+        "alpha": {
+          "const": "binary"
+        },
+        "export_mode": {
+          "enum": [
+            "rgba",
+            "indexed"
+          ]
+        }
+      },
+      "required": [
+        "working_mode",
+        "opaque_colors",
+        "alpha",
+        "export_mode"
+      ]
+    },
+    "directions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/direction"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "weapon_hand": {
+          "enum": [
+            "right",
+            "left",
+            "both",
+            "none"
+          ]
+        },
+        "asymmetric_features": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0
+        },
+        "mirror_reuse": {
+          "const": false
+        }
+      },
+      "required": [
+        "weapon_hand",
+        "asymmetric_features",
+        "mirror_reuse"
+      ]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "unit": {
+          "const": "one_motion_one_direction"
+        },
+        "aseprite_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "keep_canvas": {
+          "const": true
+        }
+      },
+      "required": [
+        "unit",
+        "aseprite_path",
+        "keep_canvas"
+      ]
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sampling": {
+          "const": "nearest"
+        },
+        "scale_policy": {
+          "const": "integer"
+        },
+        "root_motion": {
+          "enum": [
+            "in_place",
+            "external_track"
+          ]
+        },
+        "requirements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/requirement"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "sampling",
+        "scale_policy",
+        "root_motion",
+        "requirements"
+      ]
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/requirement"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "asset_id",
+    "revision",
+    "kind",
+    "canvas",
+    "coordinates",
+    "palette",
+    "directions",
+    "identity",
+    "source",
+    "runtime",
+    "requirements"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_.-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ]
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "rect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "x1": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "y1": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "x0",
+        "y0",
+        "x1",
+        "y1"
+      ]
+    },
+    "direction": {
+      "enum": [
+        "N",
+        "NE",
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ]
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "blocking",
+        "text"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image_id": {
+          "$ref": "#/$defs/id"
+        },
+        "frame_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "region": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rect"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "image_id",
+        "frame_indices",
+        "region",
+        "observation"
+      ]
+    }
+  }
+}

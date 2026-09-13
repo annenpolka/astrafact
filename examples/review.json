@@ -1,0 +1,126 @@
+{
+  "schema_version": "0.1",
+  "pack_id": "knight_e_attack_c001_review01",
+  "pack_sha256": "43a8eb7b0208bfae38ec98889b513de11497f06dbef6d50d6538bf5ce8668aab",
+  "candidate_id": "knight_e_attack_c001",
+  "stage": "candidate",
+  "verdict": "needs_evidence",
+  "summary": "架空の審査例。剣の接続に修正候補があり、時間的評価には追加証拠が必要。",
+  "checks": [
+    {
+      "criterion_id": "identity.handedness",
+      "result": "pass",
+      "evidence": [
+        {
+          "image_id": "motion_e",
+          "frame_indices": [
+            1
+          ],
+          "region": null,
+          "observation": "架空例：このフレームと基準絵を比較した観察。"
+        }
+      ],
+      "reason": "架空例：合否理由をここに記録する。"
+    },
+    {
+      "criterion_id": "identity.equipment",
+      "result": "pass",
+      "evidence": [
+        {
+          "image_id": "motion_e",
+          "frame_indices": [
+            1
+          ],
+          "region": null,
+          "observation": "架空例：このフレームと基準絵を比較した観察。"
+        }
+      ],
+      "reason": "架空例：合否理由をここに記録する。"
+    },
+    {
+      "criterion_id": "style.readability",
+      "result": "pass",
+      "evidence": [
+        {
+          "image_id": "motion_e",
+          "frame_indices": [
+            1
+          ],
+          "region": null,
+          "observation": "架空例：このフレームと基準絵を比較した観察。"
+        }
+      ],
+      "reason": "架空例：合否理由をここに記録する。"
+    },
+    {
+      "criterion_id": "motion.impact",
+      "result": "pass",
+      "evidence": [
+        {
+          "image_id": "motion_e",
+          "frame_indices": [
+            1
+          ],
+          "region": null,
+          "observation": "架空例：このフレームと基準絵を比較した観察。"
+        }
+      ],
+      "reason": "架空例：合否理由をここに記録する。"
+    },
+    {
+      "criterion_id": "motion.continuity",
+      "result": "fail",
+      "evidence": [
+        {
+          "image_id": "motion_e",
+          "frame_indices": [
+            1
+          ],
+          "region": null,
+          "observation": "架空例：このフレームと基準絵を比較した観察。"
+        }
+      ],
+      "reason": "架空例：合否理由をここに記録する。"
+    },
+    {
+      "criterion_id": "motion.timing",
+      "result": "not_observable",
+      "evidence": [],
+      "reason": "架空例：必要な時間的証拠がまだない。"
+    }
+  ],
+  "issues": [
+    {
+      "id": "issue_001",
+      "criterion_id": "motion.continuity",
+      "evidence": [
+        {
+          "image_id": "motion_e",
+          "frame_indices": [
+            1
+          ],
+          "region": {
+            "x0": 40,
+            "y0": 20,
+            "x1": 60,
+            "y1": 44
+          },
+          "observation": "架空例：剣と握りの間に切れ目が見える。"
+        }
+      ],
+      "change": "剣と握りの接続を整える。",
+      "preserve": [
+        "顔と胴体",
+        "フレーム0・2・3",
+        "全フレームのduration_msとイベント位置"
+      ],
+      "suggested_route": "pixel_patch"
+    }
+  ],
+  "evidence_requests": [
+    {
+      "criterion_id": "motion.timing",
+      "needed": "同じ候補を指定時間で再生したキャプチャ列と、各キャプチャ時刻・実行イベントログ。"
+    }
+  ]
+}

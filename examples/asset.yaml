@@ -1,0 +1,62 @@
+schema_version: '0.1'
+asset_id: knight_001
+revision: 1
+kind: character
+canvas:
+  width: 64
+  height: 64
+  anchor:
+    x: 32
+    y: 56
+coordinates:
+  origin: top_left
+  axes: x_right_y_down
+  frame_index: zero_based
+  rectangles: half_open
+  handedness: anatomical
+palette:
+  working_mode: rgba
+  opaque_colors:
+  - '#171923'
+  - '#3A405A'
+  - '#7186A0'
+  - '#CFDCE5'
+  - '#6D3D32'
+  - '#BE7953'
+  - '#EABF8D'
+  - '#E2B65B'
+  alpha: binary
+  export_mode: rgba
+directions:
+- E
+identity:
+  weapon_hand: right
+  asymmetric_features:
+  - 本人の左肩だけに肩当て
+  - マント・兜はない
+  mirror_reuse: false
+source:
+  unit: one_motion_one_direction
+  aseprite_path: source/knight_001/attack_slash/E.aseprite
+  keep_canvas: true
+runtime:
+  sampling: nearest
+  scale_policy: integer
+  root_motion: in_place
+  requirements:
+  - id: runtime.readability
+    blocking: true
+    text: 実際の背景・カメラ倍率でキャラクターと剣の軌道を読める。
+  - id: runtime.event_sync
+    blocking: true
+    text: 実行時のhit_open/hit_closeログと見た目の攻撃区間が一致する。
+requirements:
+- id: identity.handedness
+  blocking: true
+  text: 剣は解剖学的な右手にある。画像の左右と混同しない。
+- id: identity.equipment
+  blocking: true
+  text: 肩当ては本人の左肩のみ。遮蔽で見えないことと消失を区別する。
+- id: style.readability
+  blocking: true
+  text: 承認した基準画像と同じ比率・デザインとして認識できる。

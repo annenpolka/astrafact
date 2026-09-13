@@ -1,0 +1,38 @@
+schema_version: '0.1'
+motion_id: attack_slash
+asset_id: knight_001
+revision: 1
+direction: E
+intent: 踏み込まず、その場で素早い斜め斬りを一度行う。
+loop: false
+root_motion: in_place
+frames:
+- index: 0
+  duration_ms: 100
+  beat: anticipation
+- index: 1
+  duration_ms: 50
+  beat: strike
+- index: 2
+  duration_ms: 100
+  beat: followthrough
+- index: 3
+  duration_ms: 150
+  beat: recovery
+events:
+- name: hit_open
+  frame: 1
+  offset_ms: 0
+- name: hit_close
+  frame: 2
+  offset_ms: 0
+requirements:
+- id: motion.impact
+  blocking: true
+  text: 斬撃フレームの姿勢と剣の軌道から攻撃方向を読める。
+- id: motion.continuity
+  blocking: true
+  text: 同じ剣と体格が連続し、手から剣が浮かない。意図的なスミアは許容する。
+- id: motion.timing
+  blocking: true
+  text: 準備・斬撃・戻りを区別できる。実時間の手触りの断定には再生証拠が必要。

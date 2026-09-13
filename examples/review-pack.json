@@ -1,0 +1,191 @@
+{
+  "schema_version": "0.1",
+  "pack_id": "knight_e_attack_c001_review01",
+  "asset_id": "knight_001",
+  "motion_id": "attack_slash",
+  "candidate_id": "knight_e_attack_c001",
+  "stage": "candidate",
+  "bindings": {
+    "asset_spec": {
+      "path": "examples/asset.yaml",
+      "sha256": "2689cc9f12554951103696a2ed657e3fd9974345a6dcb78f1f2e74f7f3a62415"
+    },
+    "motion_spec": {
+      "path": "examples/motion.yaml",
+      "sha256": "3a324a662c5bb4deb4824722faf6805a49876d771b3344eaf34de8f49c310b5d"
+    },
+    "reference_manifest": {
+      "path": "examples/reference.manifest.json",
+      "sha256": "0bea5256f33cbe9de48dcac9af1099c5e71690cef8418f30c8ae666abe703f9b"
+    },
+    "candidate_manifest": {
+      "path": "examples/candidate.manifest.json",
+      "sha256": "75cfdfdad4d23dc241e5fbb03820ff139b12125687a5236e2876dea9bbe62cae"
+    },
+    "reviewer_prompt": {
+      "path": "prompts/reviewer.md",
+      "sha256": "76fee19e6b50aa340bc27ac5395d68eadd6734c01cb44a6c97277a02eed8a724"
+    },
+    "toolchain_manifest": {
+      "path": "examples/toolchain.manifest.json",
+      "sha256": "24c8bbfd134592ef65126777681d8235533d4e53ceec6500a7ef5ecfb37c63b7"
+    },
+    "machine_report": {
+      "path": "examples/machine-report.json",
+      "sha256": "8f0e0bac1ac4a2f6ef10234ef515ce5becd33ceabcbea82c78bc2f9f520d22b7"
+    },
+    "runtime_manifest": null,
+    "review_request_template": {
+      "path": "prompts/review-request.md",
+      "sha256": "0313294f41dae9acb15ea1345cd9b28f4221b66ef58475d6ed49d6ed5a278225"
+    }
+  },
+  "required_checks": [
+    {
+      "id": "identity.handedness",
+      "blocking": true,
+      "text": "剣は解剖学的な右手にある。画像の左右と混同しない。"
+    },
+    {
+      "id": "identity.equipment",
+      "blocking": true,
+      "text": "肩当ては本人の左肩のみ。遮蔽で見えないことと消失を区別する。"
+    },
+    {
+      "id": "style.readability",
+      "blocking": true,
+      "text": "承認した基準画像と同じ比率・デザインとして認識できる。"
+    },
+    {
+      "id": "motion.impact",
+      "blocking": true,
+      "text": "斬撃フレームの姿勢と剣の軌道から攻撃方向を読める。"
+    },
+    {
+      "id": "motion.continuity",
+      "blocking": true,
+      "text": "同じ剣と体格が連続し、手から剣が浮かない。意図的なスミアは許容する。"
+    },
+    {
+      "id": "motion.timing",
+      "blocking": true,
+      "text": "準備・斬撃・戻りを区別できる。実時間の手触りの断定には再生証拠が必要。"
+    }
+  ],
+  "images": [
+    {
+      "id": "ref_e",
+      "path": "review-packs/example/ref_e.png",
+      "sha256": "99f954b4b17cd63eb24038f926cdfbd5c31f8a8ffa5df0524fa951209696fc7c",
+      "role": "reference",
+      "width": 256,
+      "height": 256,
+      "cells": [
+        {
+          "id": "ref_e_cell",
+          "subject": "reference",
+          "frame_index": null,
+          "source_rect": {
+            "x0": 0,
+            "y0": 0,
+            "x1": 64,
+            "y1": 64
+          },
+          "board_rect": {
+            "x0": 0,
+            "y0": 0,
+            "x1": 256,
+            "y1": 256
+          },
+          "scale": 4
+        }
+      ]
+    },
+    {
+      "id": "motion_e",
+      "path": "review-packs/example/motion_e.png",
+      "sha256": "99f954b4b17cd63eb24038f926cdfbd5c31f8a8ffa5df0524fa951209696fc7c",
+      "role": "contact_sheet",
+      "width": 1136,
+      "height": 400,
+      "cells": [
+        {
+          "id": "f000",
+          "subject": "candidate",
+          "frame_index": 0,
+          "source_rect": {
+            "x0": 0,
+            "y0": 0,
+            "x1": 64,
+            "y1": 64
+          },
+          "board_rect": {
+            "x0": 32,
+            "y0": 80,
+            "x1": 288,
+            "y1": 336
+          },
+          "scale": 4
+        },
+        {
+          "id": "f001",
+          "subject": "candidate",
+          "frame_index": 1,
+          "source_rect": {
+            "x0": 0,
+            "y0": 0,
+            "x1": 64,
+            "y1": 64
+          },
+          "board_rect": {
+            "x0": 304,
+            "y0": 80,
+            "x1": 560,
+            "y1": 336
+          },
+          "scale": 4
+        },
+        {
+          "id": "f002",
+          "subject": "candidate",
+          "frame_index": 2,
+          "source_rect": {
+            "x0": 0,
+            "y0": 0,
+            "x1": 64,
+            "y1": 64
+          },
+          "board_rect": {
+            "x0": 576,
+            "y0": 80,
+            "x1": 832,
+            "y1": 336
+          },
+          "scale": 4
+        },
+        {
+          "id": "f003",
+          "subject": "candidate",
+          "frame_index": 3,
+          "source_rect": {
+            "x0": 0,
+            "y0": 0,
+            "x1": 64,
+            "y1": 64
+          },
+          "board_rect": {
+            "x0": 848,
+            "y0": 80,
+            "x1": 1104,
+            "y1": 336
+          },
+          "scale": 4
+        }
+      ]
+    }
+  ],
+  "observation_mode": "ordered_stills",
+  "notes": [
+    "このpackは構造説明用。画像ファイルは付属せず、実際の審査を表さない。"
+  ]
+}

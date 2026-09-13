@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.1",
+  "plan_id": "repair_001",
+  "parent_candidate_id": "knight_e_attack_c001",
+  "parent_manifest_sha256": "75cfdfdad4d23dc241e5fbb03820ff139b12125687a5236e2876dea9bbe62cae",
+  "source_review_sha256": "130994aa38cfc9d6c575ec2e71f0624ff5ab36064e938857eeaa5d471ff37e63",
+  "issue_ids": [
+    "issue_001"
+  ],
+  "operation": {
+    "kind": "pixel_patch",
+    "executor_id": "aseprite_allowlisted_patch",
+    "parameters": {
+      "path": "examples/patch-parameters.json",
+      "sha256": "412d4344d29fa5909cff30438702a070ed613c261b22e44517a5b14d80c8482a"
+    }
+  },
+  "scope": {
+    "pixel_mode": "masked",
+    "frame_indices": [
+      1
+    ],
+    "writable_masks": [
+      {
+        "frame_index": 1,
+        "mask": {
+          "path": "masks/example/frame_001.png",
+          "sha256": "99f954b4b17cd63eb24038f926cdfbd5c31f8a8ffa5df0524fa951209696fc7c"
+        }
+      }
+    ],
+    "allowed_metadata_paths": []
+  },
+  "preserve": {
+    "outside_masks": "exact_canonical_rgba",
+    "unlisted_frames": "exact_canonical_rgba",
+    "unlisted_metadata": "exact_value"
+  },
+  "re_review": {
+    "full_clip": true,
+    "runtime_required": true
+  }
+}

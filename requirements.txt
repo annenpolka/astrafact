@@ -1,0 +1,4 @@
+# Versions used to run this contract kit's tests; not a claim of latest versions.
+PyYAML==6.0.3
+jsonschema==4.26.0
+Pillow==12.3.0

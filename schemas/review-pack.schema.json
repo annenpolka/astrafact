@@ -1,0 +1,358 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:astrafact:v0.1:review-pack",
+  "title": "review-pack v0.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.1"
+    },
+    "pack_id": {
+      "$ref": "#/$defs/id"
+    },
+    "asset_id": {
+      "$ref": "#/$defs/id"
+    },
+    "motion_id": {
+      "$ref": "#/$defs/id"
+    },
+    "candidate_id": {
+      "$ref": "#/$defs/id"
+    },
+    "stage": {
+      "enum": [
+        "candidate",
+        "repair",
+        "runtime"
+      ]
+    },
+    "bindings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "asset_spec": {
+          "$ref": "#/$defs/file"
+        },
+        "motion_spec": {
+          "$ref": "#/$defs/file"
+        },
+        "reference_manifest": {
+          "$ref": "#/$defs/file"
+        },
+        "candidate_manifest": {
+          "$ref": "#/$defs/file"
+        },
+        "reviewer_prompt": {
+          "$ref": "#/$defs/file"
+        },
+        "toolchain_manifest": {
+          "$ref": "#/$defs/file"
+        },
+        "machine_report": {
+          "$ref": "#/$defs/file"
+        },
+        "runtime_manifest": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/file"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "review_request_template": {
+          "$ref": "#/$defs/file"
+        }
+      },
+      "required": [
+        "asset_spec",
+        "motion_spec",
+        "reference_manifest",
+        "candidate_manifest",
+        "reviewer_prompt",
+        "toolchain_manifest",
+        "machine_report",
+        "runtime_manifest",
+        "review_request_template"
+      ]
+    },
+    "required_checks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/requirement"
+      },
+      "minItems": 1
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "$ref": "#/$defs/sha256"
+          },
+          "role": {
+            "enum": [
+              "reference",
+              "contact_sheet",
+              "crop",
+              "diff",
+              "runtime_frame"
+            ]
+          },
+          "width": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "height": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "cells": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "$ref": "#/$defs/id"
+                },
+                "subject": {
+                  "enum": [
+                    "reference",
+                    "candidate",
+                    "previous_candidate"
+                  ]
+                },
+                "frame_index": {
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "source_rect": {
+                  "$ref": "#/$defs/rect"
+                },
+                "board_rect": {
+                  "$ref": "#/$defs/rect"
+                },
+                "scale": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 32
+                }
+              },
+              "required": [
+                "id",
+                "subject",
+                "frame_index",
+                "source_rect",
+                "board_rect",
+                "scale"
+              ]
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "id",
+          "path",
+          "sha256",
+          "role",
+          "width",
+          "height",
+          "cells"
+        ]
+      },
+      "minItems": 1
+    },
+    "observation_mode": {
+      "enum": [
+        "ordered_stills",
+        "verified_playback"
+      ]
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "pack_id",
+    "asset_id",
+    "motion_id",
+    "candidate_id",
+    "stage",
+    "bindings",
+    "required_checks",
+    "images",
+    "observation_mode",
+    "notes"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[a-z][a-z0-9_.-]*$"
+    },
+    "sha256": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "file": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ]
+    },
+    "point": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "rect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "y0": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "x1": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "y1": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "x0",
+        "y0",
+        "x1",
+        "y1"
+      ]
+    },
+    "direction": {
+      "enum": [
+        "N",
+        "NE",
+        "E",
+        "SE",
+        "S",
+        "SW",
+        "W",
+        "NW"
+      ]
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "blocking": {
+          "type": "boolean"
+        },
+        "text": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "id",
+        "blocking",
+        "text"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "image_id": {
+          "$ref": "#/$defs/id"
+        },
+        "frame_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "region": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/rect"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "observation": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "image_id",
+        "frame_indices",
+        "region",
+        "observation"
+      ]
+    }
+  }
+}
