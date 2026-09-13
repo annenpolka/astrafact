@@ -1,0 +1,7 @@
+{
+  "is-main": true,
+  "import": [
+    "astrafact/core",
+    "astrafact/host"
+  ]
+}

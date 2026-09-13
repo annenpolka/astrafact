@@ -1,3 +1,10 @@
 __pycache__/
 *.py[cod]
 .venv/
+
+# MoonBit build output
+moonbit/_build/
+moonbit/**/_build/
+
+# Node dependencies (the platform adapter uses only Node built-ins)
+node_modules/

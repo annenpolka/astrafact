@@ -1,0 +1,9 @@
+{
+  "import": [
+    "astrafact/core",
+    "astrafact/platform"
+  ],
+  "targets": {
+    "integration_wbtest.mbt": ["js"]
+  }
+}

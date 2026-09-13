@@ -1,0 +1,15 @@
+#!/bin/sh
+# Astrafact CLI launcher for the MoonBit JS backend.
+#
+# The MoonBit binary is compiled for the `js` target and needs the Node
+# platform adapter preloaded. This wrapper builds on demand and runs it.
+set -e
+
+HERE=$(cd "$(dirname "$0")/.." && pwd)
+BIN="$HERE/_build/js/release/build/cmd/cmd.js"
+
+if [ ! -f "$BIN" ]; then
+  (cd "$HERE" && moon build --target js --release >/dev/null)
+fi
+
+exec node --require "$HERE/js/adapter.cjs" "$BIN" "$@"
