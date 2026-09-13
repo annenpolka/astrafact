@@ -21,7 +21,6 @@ Astraを全ての視覚的な品質判断の中核に置き、判断の周囲を
 | `tools/contracts.py` | JSON Schema・ファイル間制約・座標変換・参照ハッシュ検査 |
 | `tools/pixel_guard.py` | 修正マスク外への変更検出 |
 | `tests/` | 純粋な契約・ピクセル比較ロジックの単体テスト |
-| `moonbit/` | MoonBit移行実装（コア検証・ピクセルガード・CLI・Node platform adapter） |
 
 ## 最初に固定する判断
 
@@ -56,57 +55,6 @@ uv run python tools/validate.py --root /path/to/project --dir asset-contracts --
 参照パスはすべて`--root`からの相対パス。外部URLの自動取得はしない。
 `examples`に対して`--verify-artifacts`を実行すると、**意図通り失敗する**。
 架空のmanifestと、実在しない画像・マスクを本番証拠として通さないため。
-
-## MoonBit移行（runtimeはPython不要）
-
-`moonbit/`に、同じ契約検査・ピクセルガードをMoonBitで実装した版がある。
-JSON Schema検証、ファイル間制約、座標変換、参照ハッシュ検査、ピクセル比較は
-すべてMoonBitコア（`moonbit/src/core`）が実行する。PythonやJavaScriptへ
-検証自体を委譲しない。Node.jsは以下の**platform境界**だけを担う。
-
-- ファイル読み書き、`realpath`とroot内包判定
-- SHA-256
-- YAML → JSON変換（重複キー検出を含む）
-- PNGデコード/エンコード（RGBA正規化はMoonBitコア側）
-
-必要環境: MoonBitツールチェーン（`moon`）とNode.js。Pythonは不要。
-外部MoonBitパッケージ依存はない（`moonbit/moon.mod.json`）。
-
-回帰テストと統合テスト:
-
-```sh
-moonbit/tests/run_all.sh
-```
-
-個別に実行する場合:
-
-```sh
-cd moonbit
-moon check
-moon test                                  # wasm-gc: JSON/schema/regex/pixelコア
-moon check --target js
-NODE_OPTIONS="--require \"$PWD/js/adapter.cjs\"" moon test --target js
-sh tests/cli_test.sh                       # CLIとピクセルガードの統合検査
-```
-
-CLIは`tools/validate.py`と同等（`--root` / `--dir` / `--verify-artifacts`）:
-
-```sh
-moonbit/bin/astrafact --dir examples
-moonbit/bin/astrafact --root /path/to/project --dir asset-contracts --verify-artifacts
-moonbit/bin/astrafact --root .. --dir examples --verify-artifacts   # 意図通り失敗
-```
-
-ピクセルガード（デコード済みRGBAをalpha=0で正規化、maskは0/255の厳密な
-グレースケールのみ許可）:
-
-```sh
-moonbit/bin/astrafact pixel-guard --before before.png --after after.png --mask mask.png
-```
-
-元のPython実装（`tools/`、`tests/test_contracts.py`）は削除せず、
-独立したbehavior oracleとして保存している。移植の受け入れ後に
-呼び出し側が廃止を判断する。
 
 ## スコープと未実装
 

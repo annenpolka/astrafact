@@ -1,7 +1,0 @@
-{
-  "import": [],
-  "targets": {
-    "platform_js.mbt": ["js"],
-    "platform_stub.mbt": ["wasm", "wasm-gc", "native", "llvm"]
-  }
-}
