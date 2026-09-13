@@ -32,14 +32,13 @@ Astraを全ての視覚的な品質判断の中核に置き、判断の周囲を
 
 ## 動作確認
 
-Python 3.11以降を想定。requirementsはこの環境でテストしたバージョンで、最新版であるという意味ではない。
+Python 3.11以降と[uv](https://docs.astral.sh/uv/)を想定。requirementsはこの環境でテストしたバージョンで、最新版であるという意味ではない。
 
 ```sh
-python3 -m venv .venv
-. .venv/bin/activate
-python -m pip install -r requirements.txt
-python tools/validate.py --dir examples
-python -m unittest discover -s tests -v
+uv venv
+uv pip install -r requirements.txt
+uv run python tools/validate.py --dir examples
+uv run python -m unittest discover -s tests -v
 ```
 
 最初のコマンドは**スキーマとファイル間の整合性**を検査する。
@@ -48,7 +47,7 @@ python -m unittest discover -s tests -v
 実ファイルが揃ったプロジェクトでのみ:
 
 ```sh
-python tools/validate.py --root /path/to/project --dir asset-contracts --verify-artifacts
+uv run python tools/validate.py --root /path/to/project --dir asset-contracts --verify-artifacts
 ```
 
 `--dir`の中に `asset.yaml`, `motion.yaml`, `review-pack.json`, `review.json` を置く。
